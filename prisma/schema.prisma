@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model WorkType {
+  id          String        @id @default(uuid())
+  order       Int           @default(0)
+  workType    WorkOrderType
+  code        String        @unique        
+  description String
+  permitRequired PermitType @default(NONE)
+  Work        Work[]
+}
+
+model Work {
+  id          String     @id @default(uuid())
+  workOrder   WorkOrders @relation(fields: [workOrderId], references: [id])
+  workOrderId String
+  workType    WorkType   @relation(fields: [workTypeId], references: [id])
+  workTypeId  String
+}
+
+model WorkOrders {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  type        WorkOrderType
+  permitType  PermitType    @default(NONE)
+  work        Work[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+}
+
+enum WorkOrderType {
+  EXTERIOR
+  INTERIOR
+}
+
+enum PermitType {
+  INHOUSE
+  OTC_NO_PLAN
+  OTC_WITH_PLAN
+  NONE
+}
