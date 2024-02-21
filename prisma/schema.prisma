@@ -11,13 +11,13 @@ generator client {
 }
 
 model WorkType {
-  id          String        @id @default(uuid())
-  order       Int           @default(0)
-  workType    WorkOrderType
-  code        String        @unique        
-  description String
-  permitRequired PermitType @default(NONE)
-  Work        Work[]
+  id             String        @id @default(uuid())
+  order          Int           @default(0)
+  workType       WorkOrderType
+  code           String        @unique
+  description    String
+  permitRequired PermitType    @default(NONE)
+  Work           Work[]
 }
 
 model Work {
@@ -31,7 +31,7 @@ model Work {
 model WorkOrders {
   id          String        @id @default(uuid())
   title       String
-  description String
+  description String?
   type        WorkOrderType
   permitType  PermitType    @default(NONE)
   work        Work[]

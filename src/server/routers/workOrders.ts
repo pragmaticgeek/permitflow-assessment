@@ -100,7 +100,7 @@ export const workOrdersRouter = router({
     .input(
       z.object({
         title: z.string().min(1).max(32),
-        description: z.string().min(1),
+        description: z.string(),
         type: z.enum([WorkOrderType.EXTERIOR, WorkOrderType.INTERIOR]),
         work: z.array(z.string().uuid()),
       }),
